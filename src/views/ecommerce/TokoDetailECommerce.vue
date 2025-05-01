@@ -186,7 +186,7 @@ export default {
             this.$router.push(route); // Navigasi ke route tertentu
         },
         getStore() {    
-			axios.get(`http://127.0.0.1:8000/api/store/${this.idStore}`, {
+			axios.get(`https://api.isnunas.my.id/api/store/${this.idStore}`, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${localStorage.getItem('token')}`, 
@@ -215,7 +215,7 @@ export default {
 			console.log("🚀 getUser dipanggil dengan:", idUserToko, typeof idUserToko);
 
 			try {
-				const response = await axios.get(`http://127.0.0.1:8000/api/user/${idUserToko}`, {
+				const response = await axios.get(`https://api.isnunas.my.id/api/user/${idUserToko}`, {
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem('token')}`,
 					}
@@ -233,7 +233,7 @@ export default {
 			}
 		},
 		getDistrict(idDistrict) {
-            axios.get(`http://127.0.0.1:8000/api/districts/${idDistrict}`)
+            axios.get(`https://api.isnunas.my.id/api/districts/${idDistrict}`)
                 .then(response => {
                     console.log(response.data);  // Periksa output di browser console
                     if (response.data.success) {
@@ -252,7 +252,7 @@ export default {
         // Menambahkan metode untuk mendapatkan data subDistrict
 		getSubDistrict(idSubDistrict) {
             console.log("Fetching subdistrict with ID:", idSubDistrict);
-            axios.get(`http://127.0.0.1:8000/api/subdistricts/data/${idSubDistrict}`)
+            axios.get(`https://api.isnunas.my.id/api/subdistricts/data/${idSubDistrict}`)
                 .then(res => {
                     console.log("Subdistrict API Response:", res.data);
                     if (res.data) {
@@ -269,7 +269,7 @@ export default {
         },
         async getProduk() {
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/store/${this.idStore}/product`, {
+                    const res = await axios.get(`https://api.isnunas.my.id/api/store/${this.idStore}/product`, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -289,7 +289,7 @@ export default {
                 } else {
                     console.log("Menambahkan produk ke keranjang, ID:", productId); // Debugging
                     
-                    axios.post('http://127.0.0.1:8000/api/cart/add', {
+                    axios.post('https://api.isnunas.my.id/api/cart/add', {
                         idProduct: productId, // Pastikan ini benar
                         quantity: 1
                     }, {
@@ -309,7 +309,7 @@ export default {
             },
             async getIklan() {
                 try {
-                    const res = await axios.get(`http://127.0.0.1:8000/api/store/${this.idStore}/advertisement`, {
+                    const res = await axios.get(`https://api.isnunas.my.id/api/store/${this.idStore}/advertisement`, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -323,14 +323,14 @@ export default {
             },
             getFileImageUrl(files) {
                 if (files && files.length > 0) {
-                    return `http://127.0.0.1:8000/storage/${files[0].file}`;
+                    return `https://api.isnunas.my.id/storage/${files[0].file}`;
                 }
                 return require('../../../assets/images/no-image.png'); // Placeholder jika gambar tidak tersedia
             },
 
             getBannerImageUrl(banner) {
                 if (banner) {
-                    return `http://127.0.0.1:8000/storage/${banner}`;
+                    return `https://api.isnunas.my.id/storage/${banner}`;
                 }
                 return require('../../../assets/images/no-image.png'); // Placeholder jika gambar tidak tersedia
             },

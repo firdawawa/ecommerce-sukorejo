@@ -36,13 +36,27 @@
 					<div class="pl-12 items-center">
 						<h2 class="font-bold text-2xl text-font">Ubah Data Toko</h2>
 						<hr class="h-px my-6 mr-8 bg-gray-400 border-1" />
-                        <div class="flex justify-center content-center items-center">
-                            <input type="file" name="file" ref="file" @change="handleFileChange" id="photoprofile" alt="photo-profile" class="flex justify-center h-52 w-40 bg-secondary mb-4 rounded-xl object-cover">
-                        </div>
-                        <div class="flex justify-center content-center gap-2">
-                            <img src="../../../assets/images/icon-upload.png" alt="upload-icon" class=" h-8 w-8">
-                            <span class="text-secondary font-medium text-lg">Unggah Foto</span>
-                        </div>
+						<div class="flex justify-center content-center items-center">
+							<input
+								type="file"
+								name="file"
+								ref="file"
+								@change="handleFileChange"
+								id="photoprofile"
+								alt="photo-profile"
+								class="flex justify-center h-52 w-40 bg-secondary mb-4 rounded-xl object-cover"
+							/>
+						</div>
+						<div class="flex justify-center content-center gap-2">
+							<img
+								src="../../../assets/images/icon-upload.png"
+								alt="upload-icon"
+								class="h-8 w-8"
+							/>
+							<span class="text-secondary font-medium text-lg"
+								>Unggah Foto</span
+							>
+						</div>
 						<!-- DATA -->
 						<div class="columns-2 mt-4">
 							<form class="" action="#">
@@ -181,7 +195,14 @@
 														class="block mb-2 mt-6 justify-start text-left text-xl font-medium text-gray-900"
 														>Sertifikat</label
 													>
-													<input type="file" name="file" ref="file" multiple @change="handleFileChange" class="w-full text-primary bg-purple-200 border-dotted border-2 border-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-normal rounded-lg text-lg px-5 py-8 text-center"/>
+													<input
+														type="file"
+														name="file"
+														ref="file"
+														multiple
+														@change="handleFileChange"
+														class="w-full text-primary bg-purple-200 border-dotted border-2 border-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-normal rounded-lg text-lg px-5 py-8 text-center"
+													/>
 													<span class="text-sm font-light text-gray-400"
 														>*Format media yang dapat diunggah adalah .jpeg,
 														.jpg, .png, atau .pdf dengan ukuran maksimal
@@ -582,10 +603,12 @@ export default {
 				alert('ID Store tidak ditemukan. Harap pastikan Anda sudah login.');
 				return;
 			}
-			if (!this.model.licence.idLicenceType || 
-				!this.model.licence.licenceNumber || 
-				!this.model.licence.ownerName || 
-				!this.$refs.file.files) {
+			if (
+				!this.model.licence.idLicenceType ||
+				!this.model.licence.licenceNumber ||
+				!this.model.licence.ownerName ||
+				!this.$refs.file.files
+			) {
 				alert('Seluruh data wajib diisi!');
 				return;
 			}
@@ -600,7 +623,7 @@ export default {
 
 			try {
 				const response = await axios.post(
-					'http://127.0.0.1:8000/api/licenceStore',
+					'https://api.isnunas.my.id/api/licenceStore',
 					formData,
 					{
 						headers: {
@@ -624,7 +647,7 @@ export default {
 		async fetchLicenceTypes() {
 			try {
 				const response = await axios.get(
-					'http://127.0.0.1:8000/api/licenceTypes',
+					'https://api.isnunas.my.id/api/licenceTypes',
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -642,7 +665,7 @@ export default {
 		async fetchCategories() {
 			try {
 				const response = await axios.get(
-					'http://127.0.0.1:8000/api/categories',
+					'https://api.isnunas.my.id/api/categories',
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -656,7 +679,7 @@ export default {
 		},
 		fetchBanks() {
 			axios
-				.get('http://127.0.0.1:8000/api/banks')
+				.get('https://api.isnunas.my.id/api/banks')
 				.then(res => {
 					if (res.data && res.data.success) {
 						console.log('API Response:', res.data.data); // Debug log
@@ -672,7 +695,8 @@ export default {
 		getStoreData(idStore) {
 			console.log('Mengambil data toko untuk ID:', idStore); // Debugging
 
-			axios.get(`http://127.0.0.1:8000/api/dashboard/store/${idStore}`, {
+			axios
+				.get(`https://api.isnunas.my.id/api/dashboard/store/${idStore}`, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 						Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -697,16 +721,16 @@ export default {
 				});
 		},
 		handleFileChange(event) {
-                const file = event.target.files[0]; // Ambil file pertama yang dipilih
-                if (file) {
-                    console.log('File selected:', file);
-                    this.model.store.shopProfileImg = file; // Simpan ke model
-                }
-            },
-            uploadFile() {
-                // Jika diperlukan, Anda dapat memproses file secara manual di sini
-                console.log('File ready for upload:', this.model.store.shopProfileImg);
-            },
+			const file = event.target.files[0]; // Ambil file pertama yang dipilih
+			if (file) {
+				console.log('File selected:', file);
+				this.model.store.shopProfileImg = file; // Simpan ke model
+			}
+		},
+		uploadFile() {
+			// Jika diperlukan, Anda dapat memproses file secara manual di sini
+			console.log('File ready for upload:', this.model.store.shopProfileImg);
+		},
 		updateStore() {
 			const idUser = localStorage.getItem('userId');
 			if (idUser) {
@@ -717,13 +741,17 @@ export default {
 				alert('User ID tidak ditemukan. Harap pastikan Anda sudah login.');
 				return;
 			}
-            if (this.model.store.openTime) {
-                this.model.store.openTime = this.formatTime(this.model.store.openTime);
-            }
-            if (this.model.store.closeTime) {
-                this.model.store.closeTime = this.formatTime(this.model.store.closeTime);
-            }
-			axios.post(`http://127.0.0.1:8000/api/dashboard/store/${this.idStore}`,
+			if (this.model.store.openTime) {
+				this.model.store.openTime = this.formatTime(this.model.store.openTime);
+			}
+			if (this.model.store.closeTime) {
+				this.model.store.closeTime = this.formatTime(
+					this.model.store.closeTime,
+				);
+			}
+			axios
+				.post(
+					`https://api.isnunas.my.id/api/dashboard/store/${this.idStore}`,
 					this.model.store,
 					{
 						headers: {
@@ -741,16 +769,17 @@ export default {
 					alert('Gagal memperbarui toko.');
 				});
 		},
-        formatTime(time) {
-            // Jika waktu sudah dalam format yang benar, langsung kembalikan
-            if (!time) return time;
+		formatTime(time) {
+			// Jika waktu sudah dalam format yang benar, langsung kembalikan
+			if (!time) return time;
 
-            const [hours, minutes] = time.split(':');
-            return `${hours}:${minutes}`;
-        },
+			const [hours, minutes] = time.split(':');
+			return `${hours}:${minutes}`;
+		},
 		async getLicenceFile() {
 			try {
-				const res = await axios.get(`http://127.0.0.1:8000/api/licenceStore/${this.idStore}`,
+				const res = await axios.get(
+					`https://api.isnunas.my.id/api/licenceStore/${this.idStore}`,
 					{
 						headers: {
 							'Content-Type': 'multipart/form-data',
@@ -769,13 +798,13 @@ export default {
 				alert('File tidak tersedia');
 				return;
 			}
-			const fileUrl = `http://127.0.0.1:8000/storage/${filePath}`;
+			const fileUrl = `https://api.isnunas.my.id/storage/${filePath}`;
 			window.open(fileUrl, '_blank'); // Buka file di tab baru
 		},
 		deleteLicence(idLicence) {
 			if (confirm('Are you sure to delete this?')) {
 				axios
-					.delete(`http://127.0.0.1:8000/api/licenceStore/${idLicence}`, {
+					.delete(`https://api.isnunas.my.id/api/licenceStore/${idLicence}`, {
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
 						},

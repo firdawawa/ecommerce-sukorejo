@@ -182,7 +182,7 @@ export default {
 		},
 		getStore() {
 			axios
-				.get(`http://127.0.0.1:8000/api/store/${this.idStore}`, {
+				.get(`https://api.isnunas.my.id/api/store/${this.idStore}`, {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -216,7 +216,7 @@ export default {
 
 			try {
 				const response = await axios.get(
-					`http://127.0.0.1:8000/api/user/${idUserToko}`,
+					`https://api.isnunas.my.id/api/user/${idUserToko}`,
 					{
 						headers: {
 							Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -235,7 +235,7 @@ export default {
 		},
 		getDistrict(idDistrict) {
 			axios
-				.get(`http://127.0.0.1:8000/api/districts/${idDistrict}`)
+				.get(`https://api.isnunas.my.id/api/districts/${idDistrict}`)
 				.then(response => {
 					console.log(response.data); // Periksa output di browser console
 					if (response.data.success) {

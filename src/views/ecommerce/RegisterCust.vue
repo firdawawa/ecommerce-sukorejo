@@ -206,7 +206,7 @@ export default {
 			this.isModalOpen = false;
 		},
         fetchDistricts() {
-            axios.get('http://127.0.0.1:8000/api/districts')
+            axios.get('https://api.isnunas.my.id/api/districts')
                 .then(res => {
                     if (res.data && res.data.success) {
                         console.log('API Response:', res.data.data); // Debug log
@@ -220,7 +220,7 @@ export default {
                 });
         },
         fetchSubDistricts(idDistrict) {
-            axios.get(`http://127.0.0.1:8000/api/subdistricts/${idDistrict}`)
+            axios.get(`https://api.isnunas.my.id/api/subdistricts/${idDistrict}`)
                 .then(res => {
                     if (res.data && res.data.success) {
                         console.log('Subdistricts API Response:', res.data.data); // Debug log
@@ -234,7 +234,7 @@ export default {
                 });
         },
         fetchPostalCode(idSubDistrict) {
-            axios.get(`http://127.0.0.1:8000/api/postalCode/${idSubDistrict}`)
+            axios.get(`https://api.isnunas.my.id/api/postalCode/${idSubDistrict}`)
                 .then(res => {
                     if (res.data && res.data.success) {
                         console.log('Postal Codes API Response:', res.data.postalCode); // Debug log
@@ -254,10 +254,10 @@ export default {
                 return;
             }
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/register', this.model.auth);
+                const response = await axios.post('https://api.isnunas.my.id/api/register', this.model.auth);
 
-                if (response.data.success) {
-                    this.isModalOpen = true; // Modal terbuka setelah registrasi berhasil
+                if (response.status === 200) {
+                    this.isModalOpen = true; // registrasi berhasil
                 } else {
                     alert('Registrasi gagal, coba lagi!');
                 }

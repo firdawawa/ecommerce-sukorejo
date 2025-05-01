@@ -12,17 +12,25 @@
 				</div>
 				<!-- TOKO CARD -->
 				<div class="relative" v-for="(store, index) in store" :key="index">
-					<RouterLink :to="{ path: '/bumdes/toko/' + store.id + '/detail' }"  class="relative border border-gray-300 rounded-3xl w-full my-4 px-8 py-4 h-32 flex items-center">
+					<RouterLink
+						:to="{ path: '/bumdes/toko/' + store.id + '/detail' }"
+						class="relative border border-gray-300 rounded-3xl w-full my-4 px-8 py-4 h-32 flex items-center"
+					>
 						<!-- <img :src="getImageUrl(toko.banner)" alt="Toko" class="rounded-full h-20 w-20 object-cover border border-gray-400"> -->
 						<div class="ml-8">
 							<div id="storeName" class="text-font font-bold text-xl">
 								{{ store.storeName }}
 							</div>
 							<div id="sellerName" class="text-font font-normal text-xl mt-2">
-								{{ users[store.idUser] ? users[store.idUser].name : 'Memuat...' }}
+								{{
+									users[store.idUser] ? users[store.idUser].name : 'Memuat...'
+								}}
 							</div>
 						</div>
-						<div id="category" class="text-gray-500 font-light text-xl absolute top-8 right-16">
+						<div
+							id="category"
+							class="text-gray-500 font-light text-xl absolute top-8 right-16"
+						>
 							{{ getCategoryName(store.idCategory) }}
 						</div>
 					</RouterLink>
@@ -38,17 +46,17 @@ import { RouterLink } from 'vue-router';
 import BumdesSidebarNavigation from '../../../components/bumdes/SidebarNavigation.vue';
 
 export default {
-	data(){
-        return {
+	data() {
+		return {
 			categories: {},
-            store: [],
-            users: {}, // Objek untuk menyimpan biodata user berdasarkan idUser mereka
-        }
-    },
+			store: [],
+			users: {}, // Objek untuk menyimpan biodata user berdasarkan idUser mereka
+		};
+	},
 	mounted() {
 		this.getCategories();
-        this.getStore();
-    },
+		this.getStore();
+	},
 	components: {
 		BumdesSidebarNavigation,
 	},
@@ -57,60 +65,63 @@ export default {
 			this.$router.push(route); // Navigasi ke route tertentu
 		},
 		getCategories() {
-			axios.get(`http://127.0.0.1:8000/api/categories`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			})
-			.then(res => {
-				// Simpan daftar kategori dalam objek, key = idCategory, value = categoryName
-				this.categories = res.data.data.reduce((acc, category) => {
-					acc[category.id] = category.categoryName;
-					return acc;
-				}, {});
-			})
-			.catch(error => {
-				console.error("Error fetching categories:", error);
-			});
+			axios
+				.get(`https://api.isnunas.my.id/api/categories`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				})
+				.then(res => {
+					// Simpan daftar kategori dalam objek, key = idCategory, value = categoryName
+					this.categories = res.data.data.reduce((acc, category) => {
+						acc[category.id] = category.categoryName;
+						return acc;
+					}, {});
+				})
+				.catch(error => {
+					console.error('Error fetching categories:', error);
+				});
 		},
 		getCategoryName(idCategory) {
-			return this.categories[idCategory] || "Memuat...";
+			return this.categories[idCategory] || 'Memuat...';
 		},
 		getUser(idUser) {
 			// Cek apakah user sudah ada di objek users untuk menghindari pemanggilan API berulang
 			if (this.users[idUser]) return;
 
-			axios.get(`http://127.0.0.1:8000/api/user/${idUser}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			})
-			.then(res => {
-				// Gunakan spread operator agar Vue tetap reaktif
-				this.users = { ...this.users, [idUser]: res.data.data };
-			})
-			.catch(error => {
-				console.error("Error fetching user data:", error);
-			});
-		},
-		getStore() {    
-			axios.get(`http://127.0.0.1:8000/api/store`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${localStorage.getItem('token')}`, 
-				},
-			})
-			.then(res => {
-				this.store = res.data.data;
-				this.store.forEach(store => {
-					this.getUser(store.idUser); // Ambil data user pemilik toko
+			axios
+				.get(`https://api.isnunas.my.id/api/user/${idUser}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				})
+				.then(res => {
+					// Gunakan spread operator agar Vue tetap reaktif
+					this.users = { ...this.users, [idUser]: res.data.data };
+				})
+				.catch(error => {
+					console.error('Error fetching user data:', error);
 				});
-			})
-			.catch(error => {
-				console.error("Error fetching store data:", error);
-			});
+		},
+		getStore() {
+			axios
+				.get(`https://api.isnunas.my.id/api/store`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				})
+				.then(res => {
+					this.store = res.data.data;
+					this.store.forEach(store => {
+						this.getUser(store.idUser); // Ambil data user pemilik toko
+					});
+				})
+				.catch(error => {
+					console.error('Error fetching store data:', error);
+				});
 		},
 	},
 };
