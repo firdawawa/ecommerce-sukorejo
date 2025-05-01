@@ -184,7 +184,7 @@
 						</div>
 						<div class="flex justify-center content-center gap-2">
 							<img
-								src="../../../assets/images/icon-upload.png"
+								src="../../assets/images/icon-upload.png"
 								alt="upload-icon"
 								class="h-8 w-8"
 							/>
